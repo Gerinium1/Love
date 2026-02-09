@@ -3,148 +3,240 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Szerelmemnek</title>
+    <title>Örökké veled</title>
     <style>
+        /* Elegáns, romantikus betűtípusok betöltése */
+        @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Nunito:wght@400;700&display=swap');
+
         :root {
-            --bg-color: #fce4ec;
-            --text-color: #d81b60;
-            --trunk-color: #5d4037;
-            --heart-color: #ff4081;
+            --primary-color: #d32f2f; /* Mélyvörös a szíveknek */
+            --secondary-color: #ff80ab; /* Rózsaszín a háttérelemeknek */
+            --trunk-color: #795548; /* Barna a törzsnek */
+            --bg-gradient: linear-gradient(135deg, #fff5f7 0%, #ffdde1 100%);
+            --glass-bg: rgba(255, 255, 255, 0.85);
         }
 
         body {
             margin: 0;
+            padding: 0;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            background-color: var(--bg-color);
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            overflow-x: hidden;
+            background: var(--bg-gradient);
+            font-family: 'Nunito', sans-serif;
+            overflow: hidden; /* A lehulló elemek miatt */
         }
 
-        .container {
-            background: white;
-            padding: 40px;
-            border-radius: 30px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        /* --- Háttérben úszó homályos szívek --- */
+        .floating-heart-bg {
+            position: absolute;
+            color: var(--secondary-color);
+            opacity: 0.3;
+            filter: blur(3px);
+            animation: floatUp linear infinite;
+            z-index: 0;
+            user-select: none;
+        }
+
+        @keyframes floatUp {
+            from { transform: translateY(100vh) scale(0.5); opacity: 0; }
+            to { transform: translateY(-10vh) scale(1.2); opacity: 0.3; }
+        }
+
+        /* --- Fő doboz stílusa (Glassmorphism) --- */
+        .card-container {
+            position: relative;
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.6);
+            padding: 40px 30px;
+            border-radius: 40px;
+            box-shadow: 0 25px 50px rgba(211, 47, 47, 0.15);
             text-align: center;
-            max-width: 400px;
+            max-width: 420px;
             width: 90%;
+            z-index: 10;
+            overflow: hidden;
         }
 
-        h2 { color: var(--text-color); margin-bottom: 5px; }
-        p { color: #666; font-style: italic; margin-top: 0; }
-
-        /* --- Animált Fa (SVG) --- */
-        .tree-svg {
-            width: 250px;
-            height: 250px;
-            margin: 20px auto;
+        h1 {
+            font-family: 'Great Vibes', cursive;
+            color: var(--primary-color);
+            font-size: 3rem;
+            margin: 0 0 15px 0;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
         }
 
-        /* Törzs animáció */
-        .trunk {
+        p.quote {
+            color: #555;
+            font-style: italic;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        /* --- A FA ANIMÁCIÓJA --- */
+        .tree-wrapper {
+            width: 300px;
+            height: 300px;
+            margin: 0 auto 20px;
+            position: relative;
+        }
+
+        /* Törzs és ágak rajzolása */
+        .tree-path {
+            fill: none;
             stroke: var(--trunk-color);
+            stroke-width: 6;
+            stroke-linecap: round;
+            stroke-linejoin: round;
             stroke-dasharray: 1000;
             stroke-dashoffset: 1000;
-            animation: draw 2s ease-out forwards;
+            animation: drawTree 2.5s ease-out forwards;
         }
 
-        /* Ágak animációja késleltetve */
-        .branch {
-            stroke: var(--trunk-color);
-            stroke-dasharray: 1000;
-            stroke-dashoffset: 1000;
-            animation: draw 1.5s ease-out forwards;
-            animation-delay: 1.5s;
+        /* Vékonyabb ágak */
+        .tree-branch-thin {
+            stroke-width: 4;
+            animation-delay: 1.5s; /* Később indulnak */
         }
 
-        /* Szív levelek animációja */
-        .heart {
-            fill: var(--heart-color);
-            transform: scale(0);
+        /* Szív levelek */
+        .heart-leaf {
+            fill: var(--primary-color);
+            transform: scale(0); /* Kezdetben láthatatlan */
             transform-origin: center;
-            animation: growHeart 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+            /* Rugalmas "pattanó" animáció */
+            animation: popInHeart 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
         }
 
-        @keyframes draw {
+        @keyframes drawTree {
             to { stroke-dashoffset: 0; }
         }
 
-        @keyframes growHeart {
+        @keyframes popInHeart {
             to { transform: scale(1); }
         }
 
-        /* Időzített megjelenés a leveleknek */
-        .h1 { animation-delay: 2.5s; }
-        .h2 { animation-delay: 2.7s; }
-        .h3 { animation-delay: 2.9s; }
-        .h4 { animation-delay: 3.1s; }
-        .h5 { animation-delay: 3.3s; }
-        .h6 { animation-delay: 3.5s; }
-
-        /* Számláló stílus */
+        /* --- Számláló doboz --- */
         .timer-box {
-            margin-top: 25px;
-            padding: 15px;
-            background: #fff1f1;
-            border-radius: 15px;
-            color: var(--text-color);
-            font-weight: bold;
+            background: linear-gradient(to right, #ffeff2, #fff);
+            padding: 20px;
+            border-radius: 20px;
+            border: 1px solid #ffcdd2;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.05);
         }
 
-        #counter { font-size: 1.1rem; display: block; margin-top: 8px; }
+        .timer-label {
+            display: block;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.85rem;
+            color: #888;
+            margin-bottom: 8px;
+        }
+
+        #counter-text {
+            font-weight: 700;
+            color: var(--primary-color);
+            font-size: 1.2rem;
+        }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h2>Para el amor de mi vida:</h2>
-    <p>Si pudiera elegir un lugar seguro, sería a tu lado.</p>
+    <div id="bg-hearts-container"></div>
 
-    <svg class="tree-svg" viewBox="0 0 200 200">
-        <path class="trunk" d="M100,180 Q100,140 100,100" fill="none" stroke-width="8" stroke-linecap="round"/>
-        
-        <path class="branch" d="M100,120 Q70,90 50,100" fill="none" stroke-width="5" stroke-linecap="round"/>
-        <path class="branch" d="M100,110 Q130,70 150,80" fill="none" stroke-width="5" stroke-linecap="round"/>
-        <path class="branch" d="M100,140 Q140,120 160,130" fill="none" stroke-width="4" stroke-linecap="round"/>
-        <path class="branch" d="M100,130 Q60,110 40,140" fill="none" stroke-width="4" stroke-linecap="round"/>
+    <div class="card-container">
+        <h1>Szerelmemnek</h1>
+        <p class="quote">"Ha tudnád, hányszor gondolok rád, sosem lennél egyedül."</p>
 
-        <path class="heart h1" d="M50,100 c-5-5-10,0-10,5 c0,5,10,10,10,10 c0,0,10-5,10-10 c0-5-5-10-10-5" transform="translate(-10, -10)"/>
-        <path class="heart h2" d="M150,80 c-5-5-10,0-10,5 c0,5,10,10,10,10 c0,0,10-5,10-10 c0-5-5-10-10-5" transform="translate(-10, -10)"/>
-        <path class="heart h3" d="M160,130 c-5-5-10,0-10,5 c0,5,10,10,10,10 c0,0,10-5,10-10 c0-5-5-10-10-5" transform="translate(-10, -10)"/>
-        <path class="heart h4" d="M40,140 c-5-5-10,0-10,5 c0,5,10,10,10,10 c0,0,10-5,10-10 c0-5-5-10-10-5" transform="translate(-10, -10)"/>
-        <path class="heart h5" d="M100,80 c-5-5-10,0-10,5 c0,5,10,10,10,10 c0,0,10-5,10-10 c0-5-5-10-10-5" transform="translate(-10, -10)"/>
-        <path class="heart h6" d="M80,60 c-5-5-10,0-10,5 c0,5,10,10,10,10 c0,0,10-5,10-10 c0-5-5-10-10-5" transform="translate(-10, -10)"/>
-    </svg>
+        <div class="tree-wrapper">
+            <svg viewBox="0 0 300 300" width="100%" height="100%">
+                <g class="tree-structure">
+                    <path class="tree-path" d="M150,280 Q150,200 150,150" stroke-width="8" />
+                    <path class="tree-path tree-branch-thin" d="M150,180 Q100,150 80,160" />
+                    <path class="tree-path tree-branch-thin" d="M100,160 Q70,120 50,130" />
+                    <path class="tree-path tree-branch-thin" d="M150,170 Q200,140 220,150" />
+                    <path class="tree-path tree-branch-thin" d="M200,150 Q230,110 250,120" />
+                    <path class="tree-path tree-branch-thin" d="M150,150 Q120,100 130,80" />
+                    <path class="tree-path tree-branch-thin" d="M150,150 Q180,100 170,80" />
+                </g>
 
-    <div class="timer-box">
-        Mi amor por ti comenzó hace...
-        <span id="counter">Számolás...</span>
+                <g class="heart-leaves-group">
+                    <path class="heart-leaf" style="animation-delay: 2.5s;" transform="translate(142, 165) scale(0.8)" d="M10 3.5 C10 3.5 10 3.5 10 3.5 C 6.5 0 0 1.5 0 6.5 C 0 11 10 18 10 18 C 10 18 20 11 20 6.5 C 20 1.5 13.5 0 10 3.5 Z"/>
+                    
+                    <path class="heart-leaf" style="animation-delay: 2.7s;" transform="translate(110, 145) scale(0.9)" d="M10 3.5 C10 3.5 10 3.5 10 3.5 C 6.5 0 0 1.5 0 6.5 C 0 11 10 18 10 18 C 10 18 20 11 20 6.5 C 20 1.5 13.5 0 10 3.5 Z"/>
+                    <path class="heart-leaf" style="animation-delay: 2.7s;" transform="translate(170, 145) scale(0.9)" d="M10 3.5 C10 3.5 10 3.5 10 3.5 C 6.5 0 0 1.5 0 6.5 C 0 11 10 18 10 18 C 10 18 20 11 20 6.5 C 20 1.5 13.5 0 10 3.5 Z"/>
+                    
+                    <path class="heart-leaf" style="animation-delay: 2.9s;" transform="translate(80, 115)" d="M10 3.5 C10 3.5 10 3.5 10 3.5 C 6.5 0 0 1.5 0 6.5 C 0 11 10 18 10 18 C 10 18 20 11 20 6.5 C 20 1.5 13.5 0 10 3.5 Z"/>
+                    <path class="heart-leaf" style="animation-delay: 2.9s;" transform="translate(200, 115)" d="M10 3.5 C10 3.5 10 3.5 10 3.5 C 6.5 0 0 1.5 0 6.5 C 0 11 10 18 10 18 C 10 18 20 11 20 6.5 C 20 1.5 13.5 0 10 3.5 Z"/>
+                    <path class="heart-leaf" style="animation-delay: 3.1s;" transform="translate(125, 100)" d="M10 3.5 C10 3.5 10 3.5 10 3.5 C 6.5 0 0 1.5 0 6.5 C 0 11 10 18 10 18 C 10 18 20 11 20 6.5 C 20 1.5 13.5 0 10 3.5 Z"/>
+                    <path class="heart-leaf" style="animation-delay: 3.1s;" transform="translate(155, 100)" d="M10 3.5 C10 3.5 10 3.5 10 3.5 C 6.5 0 0 1.5 0 6.5 C 0 11 10 18 10 18 C 10 18 20 11 20 6.5 C 20 1.5 13.5 0 10 3.5 Z"/>
+
+                    <path class="heart-leaf" style="animation-delay: 3.3s;" transform="translate(60, 85) scale(0.9)" d="M10 3.5 C10 3.5 10 3.5 10 3.5 C 6.5 0 0 1.5 0 6.5 C 0 11 10 18 10 18 C 10 18 20 11 20 6.5 C 20 1.5 13.5 0 10 3.5 Z"/>
+                    <path class="heart-leaf" style="animation-delay: 3.3s;" transform="translate(220, 85) scale(0.9)" d="M10 3.5 C10 3.5 10 3.5 10 3.5 C 6.5 0 0 1.5 0 6.5 C 0 11 10 18 10 18 C 10 18 20 11 20 6.5 C 20 1.5 13.5 0 10 3.5 Z"/>
+                    
+                    <path class="heart-leaf" style="animation-delay: 3.5s;" transform="translate(95, 70)" d="M10 3.5 C10 3.5 10 3.5 10 3.5 C 6.5 0 0 1.5 0 6.5 C 0 11 10 18 10 18 C 10 18 20 11 20 6.5 C 20 1.5 13.5 0 10 3.5 Z"/>
+                    <path class="heart-leaf" style="animation-delay: 3.5s;" transform="translate(185, 70)" d="M10 3.5 C10 3.5 10 3.5 10 3.5 C 6.5 0 0 1.5 0 6.5 C 0 11 10 18 10 18 C 10 18 20 11 20 6.5 C 20 1.5 13.5 0 10 3.5 Z"/>
+
+                    <path class="heart-leaf" style="animation-delay: 3.7s;" transform="translate(142, 60) scale(0.8)" d="M10 3.5 C10 3.5 10 3.5 10 3.5 C 6.5 0 0 1.5 0 6.5 C 0 11 10 18 10 18 C 10 18 20 11 20 6.5 C 20 1.5 13.5 0 10 3.5 Z"/>
+                </g>
+            </svg>
+        </div>
+
+        <div class="timer-box">
+            <span class="timer-label">Ennyi ideje szeretlek:</span>
+            <div id="counter-text">Számolás...</div>
+        </div>
     </div>
-</div>
 
-<script>
-    // Állítsd be a dátumot (Év, Hónap-1, Nap, Óra, Perc)
-    const startDate = new Date(2024, 1, 14, 0, 0, 0); 
+    <script>
+        // -------------------------------------------------
+        // 1. A DÁTUM BEÁLLÍTÁSA (FONTOS!)
+        // Év, Hónap (0=Január, 1=Február...), Nap, Óra, Perc
+        // -------------------------------------------------
+        const startDate = new Date(2023, 1, 14, 18, 0); // Pl: 2023. Február 14. 18:00
 
-    function updateCounter() {
-        const now = new Date();
-        const diff = now - startDate;
+        function updateTimer() {
+            const now = new Date();
+            const diff = now - startDate;
 
-        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-        const mins = Math.floor((diff / 1000 / 60) % 60);
-        const secs = Math.floor((diff / 1000) % 60);
+            const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
+            const m = Math.floor((diff / 1000 / 60) % 60);
+            const s = Math.floor((diff / 1000) % 60);
 
-        document.getElementById('counter').innerText = 
-            `${days} nap ${hours} óra ${mins} perc ${secs} mp`;
-    }
+            document.getElementById('counter-text').innerText = 
+                `${d} nap ${h} óra ${m} perc ${s} másodperc`;
+        }
 
-    setInterval(updateCounter, 1000);
-    updateCounter();
-</script>
+        // -------------------------------------------------
+        // 2. HÁTTÉR ANIMÁCIÓ GENERÁLÁSA
+        // -------------------------------------------------
+        function createBgHearts() {
+            const container = document.getElementById('bg-hearts-container');
+            // 15 lebegő szívet hozunk létre
+            for (let i = 0; i < 15; i++) {
+                const heart = document.createElement('div');
+                heart.classList.add('floating-heart-bg');
+                heart.innerHTML = '❤';
+                
+                // Véletlenszerű pozíció és sebesség
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.fontSize = (Math.random() * 30 + 10) + 'px';
+                heart.style.animationDuration = (Math.random() * 10 + 10) + 's'; // 10-20mp lassú lebegés
+                heart.style.animationDelay = -(Math.random() * 20) + 's'; // Hogy ne egyszerre induljanak
 
+                container.appendChild(heart);
+            }
+        }
+
+        // Indítás
+        createBgHearts();
+        setInterval(updateTimer, 1000);
+        updateTimer();
+    </script>
 </body>
 </html>
