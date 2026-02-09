@@ -8,18 +8,16 @@
     body {
       margin: 0;
       min-height: 100vh;
-      background: radial-gradient(circle at top, #ff7aa2, #ff2e63);
+      background: radial-gradient(circle at top, #ff8fb1, #ff2e63);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-family: system-ui, -apple-system, Arial, sans-serif;
+      font-family: system-ui, Arial, sans-serif;
       overflow: hidden;
     }
 
     .card {
-      position: relative;
-      z-index: 2;
-      background: rgba(255,255,255,0.9);
+      background: rgba(255,255,255,0.92);
       backdrop-filter: blur(6px);
       padding: 20px;
       border-radius: 20px;
@@ -29,12 +27,7 @@
       grid-template-columns: 1fr 1fr;
       gap: 16px;
       box-shadow: 0 20px 40px rgba(0,0,0,.25);
-      animation: float 6s ease-in-out infinite;
-    }
-
-    @keyframes float {
-      0%,100% { transform: translateY(0); }
-      50% { transform: translateY(-6px); }
+      z-index: 2;
     }
 
     h1 { margin: 0 0 8px; color: #ff2e63; }
@@ -46,22 +39,6 @@
       height: auto;
       background: linear-gradient(#fff0f6, #ffe3ed);
       border-radius: 16px;
-    }
-
-    /* Lebegő szívek */
-    .heart {
-      position: absolute;
-      bottom: -40px;
-      font-size: 18px;
-      opacity: 0.8;
-      animation: rise linear forwards;
-      pointer-events: none;
-      filter: drop-shadow(0 6px 10px rgba(0,0,0,.2));
-    }
-
-    @keyframes rise {
-      from { transform: translateY(0) scale(.8); opacity: .9; }
-      to   { transform: translateY(-120vh) scale(1.4); opacity: 0; }
     }
 
     @media (max-width: 700px) {
@@ -81,9 +58,8 @@
   </div>
 
   <script>
-    // ⏱️ DÁTUM – IDE ÍRD A TIÉTEKET
-    const startDate = new Date("2024-02-15T00:00:00");
-
+    // ⏱️ DÁTUM – ide írd a tiéteket
+    const startDate = new Date("2024-08-18-T00:00:00");
     function updateTimer() {
       const now = new Date();
       let d = Math.floor((now - startDate) / 1000);
@@ -91,19 +67,22 @@
       const h = Math.floor(d / 3600); d %= 3600;
       const m = Math.floor(d / 60);
       const s = d % 60;
-      document.getElementById("timer").innerText =
-        `Együtt: ${days} nap ${h} óra ${m} perc ${s} mp`;
+      timer.innerText = `Együtt: ${days} nap ${h} óra ${m} perc ${s} mp`;
     }
     setInterval(updateTimer, 1000); updateTimer();
 
-    // 🌳 FA + pulzáló levelek
+    // 🌳 FA NÖVÉS + SZÍV SZIRMOK
     const c = document.getElementById("tree");
     const ctx = c.getContext("2d");
+
+    let trunkH = 0;          // törzs magasság
+    let branches = 0;        // ág "erősség"
     const leaves = [];
+    let phase = 0;           // 0=törzs, 1=ágak, 2=levelek
     let t = 0;
 
-    function heart(x, y, s, hue) {
-      ctx.fillStyle = `hsl(${hue}, 80%, 60%)`;
+    function heart(x, y, s) {
+      ctx.fillStyle = "#ff2e63";
       ctx.beginPath();
       ctx.moveTo(x, y);
       ctx.bezierCurveTo(x - s, y - s, x - s*2, y + s/2, x, y + s*2);
@@ -111,46 +90,57 @@
       ctx.fill();
     }
 
-    function draw() {
+    function drawTree() {
       ctx.clearRect(0,0,c.width,c.height);
-      // törzs
+
+      // törzs nő
       ctx.fillStyle = "#7a4a22";
-      ctx.fillRect(205, 230, 18, 140);
+      ctx.fillRect(205, 260 - trunkH, 16, trunkH);
 
-      leaves.forEach((p,i) => {
-        const pulse = 1 + Math.sin(t + i) * 0.06;
-        heart(p.x, p.y, p.s * pulse, p.h);
-      });
+      // ágak (egyszerű vonalak)
+      if (phase >= 1) {
+        ctx.strokeStyle = "#7a4a22";
+        ctx.lineWidth = 4;
+        ctx.beginPath();
+        ctx.moveTo(213, 260 - trunkH);
+        ctx.lineTo(213 - branches, 200 - branches);
+        ctx.moveTo(213, 260 - trunkH + 20);
+        ctx.lineTo(213 + branches, 210 - branches);
+        ctx.stroke();
+      }
 
-      t += 0.05;
-      requestAnimationFrame(draw);
-    }
-
-    function grow() {
-      if (leaves.length < 90) {
-        leaves.push({
-          x: 210 + (Math.random()*160 - 80),
-          y: 210 + (Math.random()*140 - 70),
-          s: 5 + Math.random()*6,
-          h: 330 + Math.random()*20
+      // levelek (szív szirmok)
+      if (phase >= 2) {
+        leaves.forEach((p,i) => {
+          const pulse = 1 + Math.sin(t + i) * 0.08;
+          heart(p.x, p.y, p.s * pulse);
         });
       }
     }
-    setInterval(grow, 120);
-    draw();
 
-    // 💗 Lebegő szívek generátor
-    function spawnHeart() {
-      const el = document.createElement("div");
-      el.className = "heart";
-      el.textContent = Math.random() > .5 ? "💗" : "❤️";
-      el.style.left = Math.random() * 100 + "vw";
-      el.style.animationDuration = 6 + Math.random()*6 + "s";
-      el.style.fontSize = 14 + Math.random()*22 + "px";
-      document.body.appendChild(el);
-      setTimeout(() => el.remove(), 12000);
+    function animate() {
+      if (phase === 0) {
+        trunkH += 2;
+        if (trunkH >= 140) phase = 1;
+      } else if (phase === 1) {
+        branches += 2;
+        if (branches >= 50) phase = 2;
+      } else if (phase === 2) {
+        if (leaves.length < 80) {
+          leaves.push({
+            x: 210 + (Math.random()*160 - 80),
+            y: 160 + (Math.random()*120 - 60),
+            s: 5 + Math.random()*6
+          });
+        }
+      }
+
+      drawTree();
+      t += 0.05;
+      requestAnimationFrame(animate);
     }
-    setInterval(spawnHeart, 400);
+
+    animate();
   </script>
 </body>
 </html>
