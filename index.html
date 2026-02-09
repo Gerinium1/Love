@@ -1,150 +1,150 @@
 <!DOCTYPE html>
 <html lang="hu">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Love</title>
-  <style>
-    body{
-      margin:0;
-      min-height:100vh;
-      background: radial-gradient(1200px 600px at 50% -10%, #ff8fb1 0%, #ff2e63 60%, #b3123a 100%);
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      font-family: system-ui, -apple-system, Segoe UI, Arial, sans-serif;
-      overflow:hidden;
-    }
-    .card{
-      position:relative;
-      z-index:2;
-      background: rgba(255,255,255,.92);
-      backdrop-filter: blur(8px);
-      border-radius:22px;
-      padding:22px;
-      width:95%;
-      max-width:960px;
-      display:grid;
-      grid-template-columns:1.1fr .9fr;
-      gap:18px;
-      box-shadow: 0 30px 60px rgba(0,0,0,.35);
-    }
-    h1{margin:0 0 8px;color:#ff2e63;letter-spacing:.3px}
-    #timer{font-weight:800}
-    canvas{width:100%;max-width:420px;height:auto;border-radius:16px;background:linear-gradient(#fff0f6,#ffe3ed)}
-    @media (max-width:800px){.card{grid-template-columns:1fr;text-align:center}}
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Szerelmemnek</title>
+    <style>
+        :root {
+            --bg-color: #fce4ec;
+            --text-color: #d81b60;
+            --trunk-color: #5d4037;
+            --heart-color: #ff4081;
+        }
+
+        body {
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: var(--bg-color);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow-x: hidden;
+        }
+
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 30px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+        }
+
+        h2 { color: var(--text-color); margin-bottom: 5px; }
+        p { color: #666; font-style: italic; margin-top: 0; }
+
+        /* --- Animált Fa (SVG) --- */
+        .tree-svg {
+            width: 250px;
+            height: 250px;
+            margin: 20px auto;
+        }
+
+        /* Törzs animáció */
+        .trunk {
+            stroke: var(--trunk-color);
+            stroke-dasharray: 1000;
+            stroke-dashoffset: 1000;
+            animation: draw 2s ease-out forwards;
+        }
+
+        /* Ágak animációja késleltetve */
+        .branch {
+            stroke: var(--trunk-color);
+            stroke-dasharray: 1000;
+            stroke-dashoffset: 1000;
+            animation: draw 1.5s ease-out forwards;
+            animation-delay: 1.5s;
+        }
+
+        /* Szív levelek animációja */
+        .heart {
+            fill: var(--heart-color);
+            transform: scale(0);
+            transform-origin: center;
+            animation: growHeart 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        @keyframes draw {
+            to { stroke-dashoffset: 0; }
+        }
+
+        @keyframes growHeart {
+            to { transform: scale(1); }
+        }
+
+        /* Időzített megjelenés a leveleknek */
+        .h1 { animation-delay: 2.5s; }
+        .h2 { animation-delay: 2.7s; }
+        .h3 { animation-delay: 2.9s; }
+        .h4 { animation-delay: 3.1s; }
+        .h5 { animation-delay: 3.3s; }
+        .h6 { animation-delay: 3.5s; }
+
+        /* Számláló stílus */
+        .timer-box {
+            margin-top: 25px;
+            padding: 15px;
+            background: #fff1f1;
+            border-radius: 15px;
+            color: var(--text-color);
+            font-weight: bold;
+        }
+
+        #counter { font-size: 1.1rem; display: block; margin-top: 8px; }
+    </style>
 </head>
 <body>
-  <div class="card">
-    <div>
-      <h1>Életem szerelmének ❤️</h1>
-      <p>Ha választhatnék egy biztonságos helyet, az mindig a te oldalad lenne.</p>
-      <div id="timer"></div>
+
+<div class="container">
+    <h2>Para el amor de mi vida:</h2>
+    <p>Si pudiera elegir un lugar seguro, sería a tu lado.</p>
+
+    <svg class="tree-svg" viewBox="0 0 200 200">
+        <path class="trunk" d="M100,180 Q100,140 100,100" fill="none" stroke-width="8" stroke-linecap="round"/>
+        
+        <path class="branch" d="M100,120 Q70,90 50,100" fill="none" stroke-width="5" stroke-linecap="round"/>
+        <path class="branch" d="M100,110 Q130,70 150,80" fill="none" stroke-width="5" stroke-linecap="round"/>
+        <path class="branch" d="M100,140 Q140,120 160,130" fill="none" stroke-width="4" stroke-linecap="round"/>
+        <path class="branch" d="M100,130 Q60,110 40,140" fill="none" stroke-width="4" stroke-linecap="round"/>
+
+        <path class="heart h1" d="M50,100 c-5-5-10,0-10,5 c0,5,10,10,10,10 c0,0,10-5,10-10 c0-5-5-10-10-5" transform="translate(-10, -10)"/>
+        <path class="heart h2" d="M150,80 c-5-5-10,0-10,5 c0,5,10,10,10,10 c0,0,10-5,10-10 c0-5-5-10-10-5" transform="translate(-10, -10)"/>
+        <path class="heart h3" d="M160,130 c-5-5-10,0-10,5 c0,5,10,10,10,10 c0,0,10-5,10-10 c0-5-5-10-10-5" transform="translate(-10, -10)"/>
+        <path class="heart h4" d="M40,140 c-5-5-10,0-10,5 c0,5,10,10,10,10 c0,0,10-5,10-10 c0-5-5-10-10-5" transform="translate(-10, -10)"/>
+        <path class="heart h5" d="M100,80 c-5-5-10,0-10,5 c0,5,10,10,10,10 c0,0,10-5,10-10 c0-5-5-10-10-5" transform="translate(-10, -10)"/>
+        <path class="heart h6" d="M80,60 c-5-5-10,0-10,5 c0,5,10,10,10,10 c0,0,10-5,10-10 c0-5-5-10-10-5" transform="translate(-10, -10)"/>
+    </svg>
+
+    <div class="timer-box">
+        Mi amor por ti comenzó hace...
+        <span id="counter">Számolás...</span>
     </div>
-    <canvas id="tree" width="420" height="520"></canvas>
-  </div>
+</div>
 
-  <script>
-    // ⏱️ dátum
-    const startDate = new Date("2024-02-15T00:00:00");
-    const timerEl = document.getElementById("timer");
-    setInterval(() => {
-      let d = Math.floor((Date.now() - startDate) / 1000);
-      const days = Math.floor(d/86400); d%=86400;
-      const h = Math.floor(d/3600); d%=3600;
-      const m = Math.floor(d/60); const s = d%60;
-      timerEl.textContent = `Együtt: ${days} nap ${h} óra ${m} perc ${s} mp`;
-    }, 1000);
+<script>
+    // Állítsd be a dátumot (Év, Hónap-1, Nap, Óra, Perc)
+    const startDate = new Date(2024, 1, 14, 0, 0, 0); 
 
-    // 🎨 canvas
-    const c = document.getElementById("tree");
-    const ctx = c.getContext("2d");
-    const centerX = c.width/2;
-    const baseY = c.height - 30;
+    function updateCounter() {
+        const now = new Date();
+        const diff = now - startDate;
 
-    let trunkProg = 0;      // 0..1
-    let branchProg = 0;     // 0..1
-    let petalsProg = 0;     // 0..1
-    let t = 0;
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+        const mins = Math.floor((diff / 1000 / 60) % 60);
+        const secs = Math.floor((diff / 1000) % 60);
 
-    const branches = [
-      { ax: -80, ay: -90 },
-      { ax:  80, ay: -90 },
-      { ax: -120, ay: -150 },
-      { ax:  120, ay: -150 }
-    ];
-
-    const petals = Array.from({length: 90}, () => ({
-      x: centerX + (Math.random()*220 - 110),
-      y: baseY - 220 + (Math.random()*160 - 80),
-      s: 5 + Math.random()*6,
-      delay: Math.random()
-    }));
-
-    function heart(x,y,s,alpha=1){
-      ctx.save();
-      ctx.globalAlpha = alpha;
-      ctx.fillStyle = "#ff2e63";
-      ctx.shadowColor = "#ff5f8f";
-      ctx.shadowBlur = 10;
-      ctx.beginPath();
-      ctx.moveTo(x,y);
-      ctx.bezierCurveTo(x-s,y-s,x-2*s,y+s/2,x,y+2*s);
-      ctx.bezierCurveTo(x+2*s,y+s/2,x+s,y-s,x,y);
-      ctx.fill();
-      ctx.restore();
+        document.getElementById('counter').innerText = 
+            `${days} nap ${hours} óra ${mins} perc ${secs} mp`;
     }
 
-    function draw(){
-      ctx.clearRect(0,0,c.width,c.height);
+    setInterval(updateCounter, 1000);
+    updateCounter();
+</script>
 
-      // törzs rajzolódik
-      const trunkH = 220 * trunkProg;
-      ctx.lineCap = "round";
-      ctx.strokeStyle = "#7a4a22";
-      ctx.lineWidth = 14;
-      ctx.beginPath();
-      ctx.moveTo(centerX, baseY);
-      ctx.lineTo(centerX, baseY - trunkH);
-      ctx.stroke();
-
-      // ágak rajzolódnak
-      if (branchProg > 0) {
-        ctx.lineWidth = 8;
-        branches.forEach(b => {
-          ctx.beginPath();
-          ctx.moveTo(centerX, baseY - trunkH*0.9);
-          ctx.lineTo(
-            centerX + b.ax * branchProg,
-            baseY - trunkH*0.9 + b.ay * branchProg
-          );
-          ctx.stroke();
-        });
-      }
-
-      // szív szirmok kinőnek
-      petals.forEach((p,i) => {
-        const local = Math.max(0, Math.min(1, petalsProg - p.delay));
-        if (local > 0) {
-          const pulse = 1 + Math.sin(t + i) * 0.08;
-          heart(p.x, p.y, p.s * local * pulse, local);
-        }
-      });
-
-      t += 0.04;
-      requestAnimationFrame(draw);
-    }
-
-    function timeline(){
-      if (trunkProg < 1) trunkProg += 0.01;
-      else if (branchProg < 1) branchProg += 0.02;
-      else if (petalsProg < 1.2) petalsProg += 0.01;
-      requestAnimationFrame(timeline);
-    }
-
-    draw();
-    timeline();
-  </script>
 </body>
 </html>
