@@ -453,12 +453,13 @@
             }
         },
         draw: function(p) {
+            //FATÖRZS ÉS ÁG
             var s = this;
             var ctx = s.tree.ctx;
             ctx.save();
         	ctx.beginPath();
-        	ctx.fillStyle = 'rgb(35, 31, 32)';
-            ctx.shadowColor = 'rgb(35, 31, 32)';
+        	ctx.fillStyle = 'rgb(69, 36, 22)';
+            ctx.shadowColor = 'rgb(49, 33, 20)';
             ctx.shadowBlur = 2;
         	ctx.moveTo(p.x, p.y);
         	ctx.arc(p.x, p.y, s.radius, 0, 2 * Math.PI);
@@ -469,9 +470,18 @@
     }
 
     Bloom = function(tree, point, figure, color, alpha, angle, scale, place, speed) {
+        const szin = [
+            'rgb(240, 57, 57)',
+            'rgb(255, 0, 0)',
+            'rgb(210, 5, 139)',
+            'rgb(250, 89, 177)',
+            'rgba(240, 58, 170, 0.86)',
+            'rgb(199, 55, 155)',
+        ];
+        const veletlenIndex = Math.floor(Math.random() * szin.length);
         this.tree = tree;
         this.point = point;
-        this.color = color || 'rgb(255,' + random(0, 255) + ',' + random(0, 255) + ')';
+        this.color = color || szin[veletlenIndex];
         this.alpha = alpha || random(0.3, 1);
         this.angle = angle || random(0, 360);
         this.scale = scale || 0.1;
