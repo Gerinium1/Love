@@ -2,7 +2,7 @@
 <html xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Our Story</title>
+    <title>A történetünk</title>
 
     <link type="text/css" rel="stylesheet" href="./index_files/default.css">
     <script type="text/javascript" src="./index_files/jquery.min.js"></script>
@@ -48,9 +48,9 @@
 </style>
 
 <div id="main">
-    <div id="error">本页面采用HTML5编辑，目前您的浏览器无法显示，请换成谷歌(<a
-            href="http://www.google.cn/chrome/intl/zh-CN/landing_chrome.html?hl=zh-CN&brand=CHMI">Chrome</a>)或者火狐(<a
-            href="http://firefox.com.cn/download/">Firefox</a>)浏览器，或者其他游览器的最新版本。
+    <div id="error">hiba(<a
+            href="http://www.google.cn/chrome/intl/zh-CN/landing_chrome.html?hl=zh-CN&brand=CHMI">Chrome</a><a
+            href="http://firefox.com.cn/download/">Firefox</a>)
     </div>
     <div id="wrap">
         <div id="text">
@@ -66,7 +66,7 @@
     </div>
 
 </div>
-
+<audio id="bg-music" loop preload="auto"><source src="music.mp3"></audio>
 <script type="text/javascript">
     $('#code').html(config.lines.map(item => {
         return `<span class="say">${item}</span><br>
@@ -134,6 +134,7 @@
         var hold = 1;
 
         canvas.click(function (e) {
+        
             var offset = canvas.offset(), x, y;
             x = e.pageX - offset.left;
             y = e.pageY - offset.top;
@@ -143,6 +144,8 @@
                 canvas.unbind("mousemove");
                 canvas.removeClass('hand');
             }
+            document.getElementById('bg-music').play();
+        
         }).mousemove(function (e) {
             var offset = canvas.offset(), x, y;
             x = e.pageX - offset.left;
@@ -230,6 +233,8 @@
 
         runAsync().start();
     })();
+
+
 </script>
 
 
