@@ -2,11 +2,9 @@
 var config = {
     // 下面的句子不一定非要7句， 你也可以改成4句，2句话都可以
     lines: [
-        "Kedves Vivi",
-        "花开一季，有落红为证",
-        "逝去的岁月，如何能托于烟尘",
-        "你的浅笑，是我永生眷恋",
-        "相思的真情，是否能明白一二",
+        "Kedves Vivi!",
+        "Köszönöm hogy vagy nekem.",
+        "Te vagy nekem a legfontosabb.",
         "Legkedvesebb szerelmem, te vagy az egyetlenem.",
         "Örökké szeretni foglak。。。",
     ],
